@@ -1,0 +1,27 @@
+{
+    "name" : "404 Not Found FootBall",
+    "short_name": "404 FootBall",
+    "description": "",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#4CAF50",
+    "theme_color": "#4CAF50",
+    "gcm_sender_id": "573710964635",
+    "icons" : [
+        {
+            "src": "./ball-144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "./ball-500.png",
+            "sizes": "500x500",
+            "type": "image/png"
+        },
+        {
+            "src": "./ball-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+}

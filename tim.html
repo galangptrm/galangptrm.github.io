@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title></title>
+  <meta name="description" content="My first PWA"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/materialize.min.css">
+  <link rel="stylesheet" href="./css/font.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#aed581"/>
+  
+</head>
+<body>
+  <!-- Navigasi -->
+  <nav class="green" role="navigation">
+    <div class="nav-wrapper container">
+      <a href="#" class="brand-logo" id="logo-container"></a>
+      <a href="/#liga">
+        <i class="material-icons">arrow_back</i>
+      </a>
+      <ul class="topnav right hide-on-med-and-down"></ul>
+      <ul class="sidenav" id="nav-mobile"></ul>
+    </div>
+  </nav>
+  <!-- Akhir Navigasi -->
+
+    <!-- Content -->
+    <div class="row green" style="padding-bottom: 20px">
+        <div class="container" id="tim-banner"></div>
+    </div>
+    <!-- TABS -->
+    <div class="row">
+        <div class="container">
+            <div class="col s12">
+                <ul id="tabs" class="tabs">
+                    <li class="tab col s4 green"><a class="active" href="#tim-info" style="color:#FFFFFF">Klub</a></li>
+                    <li class="tab col s4 green"><a href="#tim-players" style="color:#FFFFFF">Pemain</a></li>
+                    <li class="tab col s4 green"><a href="#tim-matches" style="color:#FFFFFF">Tanding</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="tim-info" class="col s12">
+            <div class="container" id="tim-info-list" style="overflow:scroll; height:60vh;"></div>
+        </div>
+        <div id="tim-players" class="col s12">
+            <div class="container" id="tim-players-list" style="overflow:scroll; height:60vh;"></div>
+        </div>
+        <div id="tim-matches" class="col s12">
+            <div class="row">
+                <h5 class="center">10 Pertandingan Terakhir</h5>
+            </div>
+            <div class="container" id="tim-matches-list" style="overflow:scroll; height:60vh;"></div>
+        </div>
+    </div>
+  <!-- End Content -->
+
+  <div class="container" id="body-content"></div>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/snarkdown@1.0.2/dist/snarkdown.umd.js">
+    </script>
+
+    <script src="./js/materialize.min.js"></script>
+    <script src="./js/nav.js"></script>
+    <script src="./js/api_football.js"></script>
+    <script src="./js/idb.js"></script>
+    <script src="./js/db.js"></script>
+
+    <script>
+        // REGISTER SERVICE WORKER
+        if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function() {
+            navigator.serviceWorker
+            .register("./s3-sw.js")
+            .then(function() {
+                console.log("Pendaftaran ServiceWorker berhasil");
+            })
+            .catch(function() {
+                console.log("Pendaftaran ServiceWorker gagal");
+            });
+        });
+        } else {
+        console.log("ServiceWorker belum didukung browser ini.");
+        }
+        // REQUEST API UNTUK PERTAMA KALI
+        document.addEventListener("DOMContentLoaded", function() {
+            let url = new URLSearchParams(window.location.search);
+            
+            get_team(url.get('tim_id'));
+
+            get_team_matches(url.get('tim_id'), url.get('limit'));
+
+            let tabs = document.getElementById('tabs');
+            let instance = M.Tabs.init(tabs, {
+                duration : 300,
+                swipeable : false
+            });
+        });
+
+        function tambahTimFavorit(team_id) {
+            get_team_only(team_id);
+        }
+    </script>
+</body>
+
+</html>
